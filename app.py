@@ -45,10 +45,11 @@ if st.button("Predict Health Risk"):
     rf_pred = rf_model.predict(input_data)[0]
     knn_pred = knn_model.predict(scaler.transform(input_data))[0]
     
-st.markdown(
-    "0 = High Risk"
-    "1 = Low Risk"
-)
+    st.markdown("""
+    **Keterangan:**
+    * 0 = High Risk (Risiko Tinggi)
+    * 1 = Low Risk (Risiko Rendah)
+    """)
 
     st.subheader("Prediction Result")
     st.write(f"Random Forest: {rf_pred}")

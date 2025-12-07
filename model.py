@@ -21,7 +21,7 @@ seed = 42
 
 
 # READ DATASET
-df = pd.read_csv("data/data_train.csv")
+df = pd.read_csv("Lifestyle_and_Health_Risk_Prediction_Synthetic_Dataset.csv")
 
 # shuffle data
 df = df.sample(frac=1, random_state=seed)

@@ -11,7 +11,7 @@ scaler = joblib.load("scaler.sav")
 # PAGE TITLE
 st.title("Health Risk Classification")
 st.markdown(
-    "Predict health risk using **Decision Tree (Best Model)** and **KNN** "
+    "Predict health risk using **Decision Tree** and **KNN** "
     "based on lifestyle and health factors."
 )
 

@@ -12,8 +12,8 @@ import numpy as np
 import joblib
 
 # LOAD MODELS
-dt_model = joblib.load("dt_model.sav")
-knn_model = joblib.load("knn_model.sav")
+dt_model = joblib.load("dt_best_model.sav")
+knn_model = joblib.load("knn_best_model.sav")
 scaler = joblib.load("scaler.sav")
 
 # PAGE TITLE

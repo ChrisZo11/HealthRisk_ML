@@ -38,17 +38,25 @@ label_map = {0: "High Risk", 1: "Low Risk"}
 # PREDICTION
 st.text("")
 if st.button("Predict Health Risk"):
-    input_data = np.array([[age, bmi, sleep, smoking, alcohol, sugar]])
+    input_data = np.array([[
+        age,
+        bmi,
+        smoking,   
+        alcohol,  
+        sleep,     
+        sugar
+    ]])
 
     # Decision Tree prediction
     dt_pred = dt_model.predict(input_data)[0]
-    dt_label = label_map[dt_pred]
 
     # KNN prediction (scaled)
     input_scaled = scaler.transform(input_data)
     knn_pred = knn_model.predict(input_scaled)[0]
-    knn_label = label_map[knn_pred]
+
+    # Map label ke High/Low Risk
+    label_map = {0: "High Risk", 1: "Low Risk"}
 
     st.subheader("Prediction Result")
-    st.write(f"**Decision Tree:** {dt_label}")
-    st.write(f"**KNN:** {knn_label}")
+    st.write(f"**Decision Tree:** {label_map[dt_pred]}")
+    st.write(f"**KNN:** {label_map[knn_pred]}")

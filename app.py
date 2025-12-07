@@ -60,5 +60,5 @@ if st.button("Predict Health Risk"):
     knn_pred = knn_model.predict(input_scaled)[0]
 
     st.subheader("Prediction Result")
-    st.write(f"**Decision Tree (Best Model):** {dt_pred}")
+    st.write(f"**Decision Tree:** {dt_pred}")
     st.write(f"**KNN:** {knn_pred}")

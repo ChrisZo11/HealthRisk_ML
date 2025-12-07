@@ -9,35 +9,12 @@ Original file is located at
 
 import streamlit as st
 import numpy as np
-import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+import joblib
 
-@st.cache_resource
-def load_models():
-    df = pd.read_csv("Lifestyle_and_Health_Risk_Prediction_Synthetic_Dataset.csv")
-
-    X = df[['age', 'bmi', 'smoking', 'alcohol', 'sleep', 'sugar_intake']]
-    y = df['health_risk']
-
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.3, random_state=42, stratify=y
-    )
-
-    rf = RandomForestClassifier(n_estimators=100, random_state=42)
-    rf.fit(X_train, y_train)
-
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-
-    knn = KNeighborsClassifier(n_neighbors=5)
-    knn.fit(X_train_scaled, y_train)
-
-    return rf, knn, scaler
-
-rf_model, knn_model, scaler = load_models()
+# LOAD SAVED MODELS (NO TRAINING)
+rf_model = joblib.load("rf_model.sav")
+knn_model = joblib.load("knn_model.sav")
+scaler = joblib.load("scaler.sav")
 
 # PAGE TITLE
 st.title("Health Risk Classification")
@@ -46,43 +23,28 @@ st.markdown(
     "based on lifestyle and health factors."
 )
 
-
 # INPUT UI
 st.header("Input Health Data")
 
 col1, col2 = st.columns(2)
 
 with col1:
-    st.text("Personal Data")
     age = st.slider("Age", 0, 100, 30)
     bmi = st.slider("BMI", 10.0, 50.0, 22.0)
     sleep = st.slider("Sleep (hours)", 0.0, 12.0, 7.0)
 
 with col2:
-    st.text("Lifestyle Habits")
     smoking = st.selectbox("Smoking", [0, 1])
     alcohol = st.selectbox("Alcohol", [0, 1])
     sugar = st.slider("Sugar Intake", 0.0, 100.0, 30.0)
 
 # PREDICTION
-st.text("")
 if st.button("Predict Health Risk"):
-    input_data = np.array([[
-        age,
-        bmi,
-        smoking,
-        alcohol,
-        sleep,
-        sugar
-    ]])
+    input_data = np.array([[age, bmi, smoking, alcohol, sleep, sugar]])
 
-    # Random Forest prediction
     rf_pred = rf_model.predict(input_data)[0]
-
-    # KNN prediction (scaled)
-    input_scaled = scaler.transform(input_data)
-    knn_pred = knn_model.predict(input_scaled)[0]
+    knn_pred = knn_model.predict(scaler.transform(input_data))[0]
 
     st.subheader("Prediction Result")
-    st.write(f"**Random Forest:** {rf_pred}")
-    st.write(f"**KNN:** {knn_pred}")
+    st.write(f"Random Forest: {rf_pred}")
+    st.write(f"KNN: {knn_pred}")

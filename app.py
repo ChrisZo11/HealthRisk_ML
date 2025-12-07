@@ -9,14 +9,35 @@ Original file is located at
 
 import streamlit as st
 import numpy as np
-import joblib
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
+@st.cache_resource
+def load_models():
+    df = pd.read_csv("Lifestyle_and_Health_Risk_Prediction_Synthetic_Dataset.csv")
 
-# LOAD MODELS
-rf_model = joblib.load("rf_model.sav")
-knn_model = joblib.load("knn_model.sav")
-scaler = joblib.load("scaler.sav")
+    X = df[['age', 'bmi', 'smoking', 'alcohol', 'sleep', 'sugar_intake']]
+    y = df['health_risk']
 
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.3, random_state=42, stratify=y
+    )
+
+    rf = RandomForestClassifier(n_estimators=100, random_state=42)
+    rf.fit(X_train, y_train)
+
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+
+    knn = KNeighborsClassifier(n_neighbors=5)
+    knn.fit(X_train_scaled, y_train)
+
+    return rf, knn, scaler
+
+rf_model, knn_model, scaler = load_models()
 
 # PAGE TITLE
 st.title("Health Risk Classification")

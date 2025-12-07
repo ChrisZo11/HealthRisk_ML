@@ -48,7 +48,8 @@ if st.button("Predict Health Risk"):
 st.markdown(
     "0 = High Risk"
     "1 = Low Risk"
-    
+)
+
     st.subheader("Prediction Result")
     st.write(f"Random Forest: {rf_pred}")
     st.write(f"KNN: {knn_pred}")

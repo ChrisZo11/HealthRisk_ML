@@ -7,7 +7,7 @@ import joblib
 st.set_page_config(
     page_title="Health Risk Check",
     page_icon="🏥",
-    layout="wide"
+    
 )
 
 # --- 2. Load Model & Scaler (Hanya sekali load biar cepat) ---
@@ -46,7 +46,7 @@ with st.sidebar.form("health_form"):
     smoking_opt = st.selectbox("Merokok (Smoking)?", ["Tidak (0)", "Ya (1)"])
     alcohol_opt = st.selectbox("Alkohol (Alcohol)?", ["Tidak (0)", "Ya (1)"])
     
-    sleep = st.slider("Tidur (Jam/hari)", 0.0, 12.0, 7.0, step=0.5)
+    sleep = st.slider("Tidur (Jam)", 0.0, 12.0, 7.0, step=0.5)
     sugar = st.slider("Gula (Sugar Intake)", 0.0, 100.0, 30.0)
     
     st.markdown("---")
